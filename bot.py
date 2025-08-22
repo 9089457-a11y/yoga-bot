@@ -46,10 +46,10 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 
 def main() -> None:
-    # 🔑 Токен и URL
+    # 🔑 Переменные окружения Render
     TOKEN = os.environ.get("TOKEN")
-    PORT = int(os.environ.get("PORT", "5000"))
-    URL = "https://yoga-bot-lvzo.onrender.com"
+    PORT = int(os.environ.get("PORT", 5000))
+    URL = "https://yoga-bot-lvzo.onrender.com"  # публичный URL Render без /webhook/...
 
     # Создаём приложение
     application = Application.builder().token(TOKEN).build()
@@ -61,7 +61,7 @@ def main() -> None:
     application.run_webhook(
         listen="0.0.0.0",
         port=PORT,
-        webhook_url=f"{URL}/webhook/{TOKEN}"  # <-- сюда Telegram шлёт обновления
+        webhook_url=URL
     )
 
 if __name__ == "__main__":
