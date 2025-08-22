@@ -29,6 +29,8 @@ yoga_asanas = [
     ("Натараджасана, поза короля танцев", "asana1.jpg"),
     ("Сварга Двиджасана, поза райской птицы", "asana2.jpg"),
     ("Бакасана", "asana3.jpg"),
+    ("Врикшасана, поза дерева", "asana4.jpg"),
+    ("Джану Ширшасана, наклон к одной ноге", "asana5.jpg"),
 ]
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
