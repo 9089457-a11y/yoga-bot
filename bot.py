@@ -53,10 +53,11 @@ def main() -> None:
 
     # Запуск через webhook
     application.run_webhook(
-        listen="0.0.0.0",
-        port=PORT,
-        webhook_url=f"{URL}/webhook/{TOKEN}"
-    )
+    listen="0.0.0.0",
+    port=PORT,
+    webhook_path=f"/webhook/{TOKEN}",  # <-- путь на сервере
+    webhook_url=f"{URL}/webhook/{TOKEN}"  # <-- URL для Telegram
+)
 
 if __name__ == "__main__":
     main()
