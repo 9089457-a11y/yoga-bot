@@ -3,6 +3,7 @@ import asyncio
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
 import random
+import os
 
 # Включаем логи для отладки
 logging.basicConfig(
@@ -53,9 +54,10 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 def main() -> None:
     # 🔑 сюда вставь свой токен
-    import os
+    TOKEN = os.environ.get("TOKEN")
 
-TOKEN = os.environ.get("TOKEN")
+    # Создаем приложение
+    application = Application.builder().token(TOKEN).build()
 
     # Регистрируем команду /start
     application.add_handler(CommandHandler("start", start))
