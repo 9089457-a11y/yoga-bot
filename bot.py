@@ -24,11 +24,11 @@ yoga_phrases = [
     "🥥 Открываю кокос внутренней гармонии...",
 ]
 
-# Ссылки на картинки вместо локальных файлов
+# Прямые ссылки на картинки Google Drive
 yoga_asanas = [
-    ("Натараджасана, поза короля танцев", "https://drive.google.com/uc?id=1KCiUs9vsX_uz48LGCRFNe8brERwdOnRP"),
-    ("Сварга Двиджасана, поза райской птицы", "https://drive.google.com/uc?id=1-_eJIXsPKOy_3eqEaDUgXBmkLzLL35dr"),
-    ("Бакасана", "https://drive.google.com/uc?id=1k1GtWHC3bfMs44YG7CXVZ8qVKE8WuXrF"),
+    ("Натараджасана, поза короля танцев", "https://drive.google.com/uc?export=view&id=1KCiUs9vsX_uz48LGCRFNe8brERwdOnRP"),
+    ("Сварга Двиджасана, поза райской птицы", "https://drive.google.com/uc?export=view&id=1-_eJIXsPKOy_3eqEaDUgXBmkLzLL35dr"),
+    ("Бакасана", "https://drive.google.com/uc?export=view&id=1k1GtWHC3bfMs44YG7CXVZ8qVKE8WuXrF"),
 ]
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -47,7 +47,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Выбираем случайную асану
     asana_name, asana_url = random.choice(yoga_asanas)
 
-    # Отправляем картинку с асаной по ссылке
+    # Отправляем картинку с асаной по URL
     await update.message.reply_photo(photo=asana_url, caption=asana_name)
 
 
