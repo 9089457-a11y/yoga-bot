@@ -24,15 +24,14 @@ yoga_phrases = [
     "🥥 Открываю кокос внутренней гармонии...",
 ]
 
-# Прямые ссылки на картинки Google Drive
+# пути к картинкам просто как имена файлов
 yoga_asanas = [
-    ("Натараджасана, поза короля танцев", "https://drive.google.com/uc?export=view&id=1KCiUs9vsX_uz48LGCRFNe8brERwdOnRP"),
-    ("Сварга Двиджасана, поза райской птицы", "https://drive.google.com/uc?export=view&id=1-_eJIXsPKOy_3eqEaDUgXBmkLzLL35dr"),
-    ("Бакасана", "https://drive.google.com/uc?export=view&id=1k1GtWHC3bfMs44YG7CXVZ8qVKE8WuXrF"),
+    ("Натараджасана, поза короля танцев", "asana1.jpg"),
+    ("Сварга Двиджасана, поза райской птицы", "asana2.jpg"),
+    ("Бакасана", "asana3.jpg"),
 ]
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    # Берем 3 случайные фразы без повторений
     phrases = random.sample(yoga_phrases, 3)
 
     message = await update.message.reply_text(phrases[0])
@@ -40,21 +39,22 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         await asyncio.sleep(2)
         await message.edit_text(phrase)
 
-    # После показа фраз удаляем сообщение
     await asyncio.sleep(2)
     await message.delete()
 
-    # Выбираем случайную асану
-    asana_name, asana_url = random.choice(yoga_asanas)
+    asana_name, asana_file = random.choice(yoga_asanas)
 
-    # Отправляем картинку с асаной по URL
-    await update.message.reply_photo(photo=asana_url, caption=asana_name)
-
+    # Отправляем картинку из корня проекта
+    if os.path.exists(asana_file):
+        with open(asana_file, "rb") as f:
+            await update.message.reply_photo(photo=f, caption=asana_name)
+    else:
+        await update.message.reply_text(f"Файл {asana_file} не найден!")
 
 def main() -> None:
     TOKEN = os.environ.get("TOKEN")
     PORT = int(os.environ.get("PORT", 5000))
-    URL = "https://yoga-bot-lvzo.onrender.com"  # публичный URL Render
+    URL = "https://yoga-bot-lvzo.onrender.com"  # URL Render
 
     application = Application.builder().token(TOKEN).build()
     application.add_handler(CommandHandler("start", start))
