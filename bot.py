@@ -1,9 +1,9 @@
 import logging
 import asyncio
+import os
+import random
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
-import random
-import os
 
 # Включаем логи для отладки
 logging.basicConfig(
@@ -33,37 +33,30 @@ yoga_asanas = [
 ]
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    # Отправляем первое сообщение
     message = await update.message.reply_text(yoga_phrases[0])
-
-    # Меняем текст несколько раз с паузами
     for phrase in yoga_phrases[1:]:
-        await asyncio.sleep(2)  # задержка 2 сек
+        await asyncio.sleep(2)
         await message.edit_text(phrase)
-
-    # Ждём и удаляем сообщение
     await asyncio.sleep(2)
     await message.delete()
-
-    # Выбираем случайную асану
     asana_name, asana_file = random.choice(yoga_asanas)
-
-    # Отправляем картинку + название асаны
     with open(asana_file, "rb") as f:
         await update.message.reply_photo(photo=f, caption=asana_name)
 
 def main() -> None:
-    # 🔑 сюда вставь свой токен
     TOKEN = os.environ.get("TOKEN")
+    URL = os.environ.get("RENDER_EXTERNAL_URL")  # Render автоматически задаёт внешний URL
+    PORT = int(os.environ.get("PORT", 5000))
 
-    # Создаем приложение
     application = Application.builder().token(TOKEN).build()
-
-    # Регистрируем команду /start
     application.add_handler(CommandHandler("start", start))
 
-    # Запуск бота
-    application.run_polling()
+    # Запуск через webhook
+    application.run_webhook(
+        listen="0.0.0.0",
+        port=PORT,
+        webhook_url=f"{URL}/webhook/{TOKEN}"
+    )
 
 if __name__ == "__main__":
     main()
