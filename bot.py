@@ -53,7 +53,9 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 def main() -> None:
     # 🔑 сюда вставь свой токен
-    application = Application.builder().token("1781803135:AAGmFAqMJYewbPMx92Cg6--q742Ddlrc_9A").build()
+    import os
+
+TOKEN = os.environ.get("TOKEN")
 
     # Регистрируем команду /start
     application.add_handler(CommandHandler("start", start))
